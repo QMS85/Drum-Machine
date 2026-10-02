@@ -1,0 +1,323 @@
+/* ============================================
+   DRUM MACHINE - styles.css
+   ============================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-dark: #0d0d0f;
+  --bg-panel: #111318;
+  --bg-pad: #1a1d25;
+  --bg-pad-hover: #22263a;
+  --accent-primary: #5865f2;
+  --accent-glow: #7c87f7;
+  --accent-secondary: #ed4245;
+  --accent-cyan: #00b4d8;
+  --text-primary: #e8eaf6;
+  --text-secondary: #9fa8da;
+  --text-dim: #4a4f6e;
+  --border-subtle: #1e2134;
+  --pad-active-bg: #3c44c4;
+  --pad-active-shadow: rgba(88, 101, 242, 0.8);
+  --display-bg: #070810;
+  --glow-primary: 0 0 20px rgba(88, 101, 242, 0.4);
+  --glow-active: 0 0 30px rgba(88, 101, 242, 0.9), 0 0 60px rgba(88, 101, 242, 0.4);
+}
+
+body {
+  font-family: 'Orbitron', 'Share Tech Mono', monospace;
+  background: var(--bg-dark);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-image:
+    radial-gradient(ellipse at 20% 20%, rgba(88, 101, 242, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(0, 180, 216, 0.04) 0%, transparent 50%);
+}
+
+/* ============ MACHINE CONTAINER ============ */
+
+#drum-machine {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 32px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow:
+    0 0 0 1px rgba(88, 101, 242, 0.1),
+    0 24px 80px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+#drum-machine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(88, 101, 242, 0.6), rgba(0, 180, 216, 0.4), transparent);
+}
+
+/* ============ HEADER ============ */
+
+.machine-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.machine-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.machine-title h1 {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #5865f2, #a8b4ff, #00b4d8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.title-icon {
+  font-size: 1.2rem;
+  color: var(--accent-primary);
+  opacity: 0.7;
+  animation: pulse-icon 2.5s ease-in-out infinite;
+}
+
+.title-icon:last-child {
+  animation-delay: 1.25s;
+}
+
+@keyframes pulse-icon {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.15); }
+}
+
+/* ============ DISPLAY ============ */
+
+#display {
+  font-family: 'Share Tech Mono', 'Orbitron', monospace;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  color: var(--accent-cyan);
+  background: var(--display-bg);
+  border: 1px solid rgba(0, 180, 216, 0.25);
+  border-radius: 8px;
+  padding: 10px 20px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-transform: uppercase;
+  box-shadow:
+    inset 0 2px 8px rgba(0, 0, 0, 0.5),
+    0 0 12px rgba(0, 180, 216, 0.1);
+  transition: all 0.15s ease;
+}
+
+#display.active {
+  color: #7df9ff;
+  border-color: rgba(0, 180, 216, 0.6);
+  box-shadow:
+    inset 0 2px 8px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(0, 180, 216, 0.3);
+}
+
+/* ============ PAD BANK ============ */
+
+#pad-bank {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+/* ============ DRUM PADS ============ */
+
+.drum-pad {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  background: var(--bg-pad);
+  border: 1px solid rgba(88, 101, 242, 0.18);
+  border-radius: 12px;
+  padding: 0;
+  width: 100%;
+  aspect-ratio: 1;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition:
+    background 0.1s ease,
+    border-color 0.1s ease,
+    transform 0.08s ease,
+    box-shadow 0.1s ease,
+    color 0.1s ease;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.3);
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.drum-pad::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(88, 101, 242, 0.08) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.drum-pad::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(88, 101, 242, 0.5), transparent);
+  border-radius: 999px;
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+}
+
+.drum-pad:hover {
+  background: var(--bg-pad-hover);
+  border-color: rgba(88, 101, 242, 0.4);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(88, 101, 242, 0.15);
+}
+
+.drum-pad:hover::before {
+  opacity: 1;
+}
+
+.drum-pad:active,
+.drum-pad.active {
+  background: var(--pad-active-bg);
+  border-color: rgba(88, 101, 242, 0.8);
+  color: #ffffff;
+  transform: translateY(2px) scale(0.97);
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(88, 101, 242, 0.6),
+    0 0 40px rgba(88, 101, 242, 0.25),
+    0 0 0 1px rgba(88, 101, 242, 0.5);
+}
+
+.drum-pad:active::before,
+.drum-pad.active::before {
+  opacity: 1;
+  background: radial-gradient(ellipse at 50% 30%, rgba(120, 140, 255, 0.2) 0%, transparent 70%);
+}
+
+.drum-pad:focus-visible {
+  outline: 2px solid rgba(88, 101, 242, 0.7);
+  outline-offset: 2px;
+}
+
+/* ============ FOOTER ============ */
+
+.machine-footer {
+  text-align: center;
+}
+
+.key-legend {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border: 1px solid rgba(88, 101, 242, 0.08);
+  border-radius: 6px;
+  display: inline-block;
+}
+
+/* ============ RIPPLE EFFECT ============ */
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(88, 101, 242, 0.4);
+  transform: scale(0);
+  animation: ripple-anim 0.45s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple-anim {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 480px) {
+  #drum-machine {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
+
+  .machine-title h1 {
+    font-size: 1.25rem;
+  }
+
+  #pad-bank {
+    gap: 10px;
+  }
+
+  .drum-pad {
+    font-size: 1.2rem;
+    border-radius: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title-icon {
+    animation: none;
+    opacity: 0.6;
+  }
+
+  .drum-pad {
+    transition: none;
+  }
+
+  .ripple {
+    display: none;
+  }
+}
